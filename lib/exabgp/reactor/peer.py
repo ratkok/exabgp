@@ -357,10 +357,12 @@ class Peer (object):
 		if self._teardown:
 			raise Notify(6,3)
 
+		self.neighbor.rib.incoming.clear()
+
 		include_withdraw = False
 
 		# Announce to the process BGP is up
-		self.logger.notice('connected to %s' % self.id(),'reactor')
+		self.logger.notice('connected to %s with %s' % (self.id(),self.proto.connection.name()),'reactor')
 		self.stats['up'] = self.stats.get('up',0) + 1
 		if self.neighbor.api['neighbor-changes']:
 			try:
